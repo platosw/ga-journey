@@ -34,7 +34,7 @@ app.use(cors());// to prevent errors, open access to all origins
 app.use(morgan('dev'));
 app.use(express.json()); // parse json bodies
 
-// routes
+// routes  ======>> 왜 INDUCES 순서를 따르지 핞는건지 물어보기
 // testing
 app.get('/', (req, res) => {
     res.send('Hello World!!');
@@ -58,6 +58,26 @@ app.post('/blog', async (req, res) => {
         res.json(await Blog.create(req.body));
     } catch (error) {
         // send error
+        res.status(400).json(error);
+    }
+});
+
+// BLOG delete route ====>> 비동기를 사용하지 않아도 작동하는 부분에는 문제는 없는지 물어본다.
+app.delete('/blog/:id', async (req, res) => {
+    try {
+        res.json(await Blog.findByIdAndDelete(req.params.id)); // id 를 브라우저에서 사용자가 어떻게 전달할 수 있는지 물어본다. 그리고 findByIdAndRemove에 대해서도 물어본다.
+    } catch {
+        res.status(400).json(error);
+    }
+});
+
+// BLOG update route
+app.put('/blog/:id', async (req, res) => {
+    try {
+        res.json(
+            await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true }) // findByIdAndUpdate 의 파라미터에 대해서 물어본다.
+        );
+    } catch {
         res.status(400).json(error);
     }
 });
