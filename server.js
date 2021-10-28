@@ -76,7 +76,7 @@ app.put('/blog/:id', async (req, res) => {
     try {
         res.json(
             await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true }) // findByIdAndUpdate 의 파라미터에 대해서 물어본다.
-        );
+        );                 // 어떻게 같은 오브젝트 안에 키값인 아이디를 불러왔는데 다른 키값들을 변경할 수 있는지 물어본다.
     } catch {
         res.status(400).json(error);
     }
